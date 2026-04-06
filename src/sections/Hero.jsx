@@ -1,101 +1,145 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaEnvelope, FaDownload } from 'react-icons/fa';
+
+const PhotoCard = () => {
+  const ref = useRef(null);
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const rotateX = useSpring(useTransform(mouseY, [-200, 200], [12, -12]));
+  const rotateY = useSpring(useTransform(mouseX, [-200, 200], [-12, 12]));
+
+  return (
+    <motion.div ref={ref} style={{ rotateX, rotateY }} className="relative w-full h-full">
+      <div className="w-full h-full rounded-full border border-accent-cyan overflow-hidden shadow-[0_0_40px_rgba(0,255,255,0.3)]">
+        <img src="/profile.jpeg" alt="profile" className="w-full h-full object-cover rounded-full" />
+      </div>
+    </motion.div>
+  );
+};
+
+/* Animation Variants */
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.25,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 60 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+};
 
 const Hero = () => {
   return (
-    <section className="relative w-full min-h-screen mx-auto flex flex-col lg:flex-row items-center justify-center overflow-hidden pt-20">
-      
-      {/* Content wrapper */}
-      <div className="z-10 text-center lg:text-left flex-1 px-6 sm:px-16 max-w-7xl mx-auto pointer-events-none mt-10 lg:mt-0">
-        <motion.p 
-          className="text-accent-blue font-mono mb-4 text-sm lg:text-base tracking-widest uppercase"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Computer Science Professional
-        </motion.p>
-        
-        <motion.h1 
-          className="text-5xl md:text-7xl font-bold mb-6 text-white tracking-tight"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          Manisha <span className="text-accent-cyan pointer-events-auto drop-shadow-md">N</span>
-        </motion.h1>
-        
-        <motion.p 
-          className="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          Full Stack Developer specializing in crafting robust web applications, scalable backend systems, and intuitive user experiences.
-        </motion.p>
-        
-        <motion.div 
-          className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pointer-events-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-        >
-          <a href="#projects" className="px-6 py-3 rounded-full bg-accent-blue/10 text-accent-cyan border border-accent-cyan hover:bg-accent-cyan hover:text-primary transition-all duration-300 font-semibold shadow-[0_0_15px_rgba(0,255,255,0.2)] hover:shadow-[0_0_25px_rgba(0,255,255,0.5)] flex items-center justify-center">
-            View Projects
-          </a>
-          <a href="/resume.pdf" download="Manisha_N_Resume.pdf" className="px-6 py-3 rounded-full bg-accent-purple/20 text-accent-purple border border-accent-purple hover:bg-accent-purple hover:text-white transition-all duration-300 font-semibold shadow-[0_0_15px_rgba(157,78,221,0.2)] hover:shadow-[0_0_25px_rgba(157,78,221,0.5)] flex items-center justify-center gap-2">
-            <FaDownload /> Resume
-          </a>
-          <a href="#contact" className="px-6 py-3 rounded-full glass-panel text-white hover:bg-white/10 transition-all duration-300 font-semibold border border-white/10 flex items-center justify-center">
-            Contact Me
-          </a>
+    <section className="relative w-full min-h-screen overflow-hidden pt-20">
+
+      {/* DESKTOP + TABLET */}
+      <motion.div
+        className="hidden md:flex flex-row items-center justify-center max-w-7xl mx-auto px-6 lg:px-16"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
+
+        {/* TEXT */}
+        <motion.div className="flex-1 text-left">
+
+          <motion.h1 variants={item} className="text-5xl lg:text-7xl font-bold text-white">
+            Manisha <span className="text-accent-cyan">N</span>
+          </motion.h1>
+
+          <motion.p variants={item} className="text-lg lg:text-xl text-gray-400 mt-4">
+            Full Stack Developer specializing in crafting robust web applications.
+          </motion.p>
+
+          {/* BUTTONS */}
+          <motion.div className="flex gap-4 mt-6 flex-wrap">
+            <motion.a variants={item} href="#projects" className="px-6 py-3 rounded-full bg-accent-blue/10 text-accent-cyan border border-accent-cyan">
+              View Projects
+            </motion.a>
+
+            <motion.a variants={item} href="/resume.pdf" className="px-6 py-3 rounded-full bg-accent-purple/20 text-accent-purple border border-accent-purple flex items-center gap-2">
+              <FaDownload /> Resume
+            </motion.a>
+
+            <motion.a variants={item} href="#contact" className="px-6 py-3 rounded-full glass-panel text-white border border-white/10">
+              Contact Me
+            </motion.a>
+          </motion.div>
+
+          {/* ICONS */}
+          <motion.div className="flex gap-6 mt-6">
+            <motion.div variants={item}><FaGithub size={22} /></motion.div>
+            <motion.div variants={item}><FaLinkedin size={22} /></motion.div>
+            <motion.div variants={item}><FaEnvelope size={22} /></motion.div>
+          </motion.div>
+
         </motion.div>
 
-        {/* Social Icons */}
-        <motion.div
-           className="flex gap-6 mt-10 justify-center lg:justify-start pointer-events-auto"
-           initial={{ opacity: 0, scale: 0.8 }}
-           animate={{ opacity: 1, scale: 1 }}
-           transition={{ duration: 0.5, delay: 0.4 }}
-        >
-           <a href="https://github.com/manishadeepa" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/10 glass-panel flex items-center justify-center text-white hover:text-accent-cyan hover:bg-white/10 transition-all shadow-lg hover:shadow-[0_0_15px_rgba(0,255,255,0.4)]">
-              <FaGithub className="w-6 h-6" />
-           </a>
-           <a href="https://www.linkedin.com/in/manishadeepa/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full border border-white/10 glass-panel flex items-center justify-center text-white hover:text-accent-blue hover:bg-white/10 transition-all shadow-lg hover:shadow-[0_0_15px_rgba(0,100,255,0.4)]">
-              <FaLinkedin className="w-6 h-6" />
-           </a>
-           <a href="mailto:manishanarayanasami@gmail.com" className="w-12 h-12 rounded-full border border-white/10 glass-panel flex items-center justify-center text-white hover:text-primary hover:bg-white transition-all shadow-lg hover:shadow-[0_0_15px_rgba(255,255,255,0.4)]">
-              <FaEnvelope className="w-6 h-6" />
-           </a>
-        </motion.div>
-      </div>
-
-      {/* Profile Image element */}
-      <div className="absolute inset-0 top-[20%] lg:top-0 w-full h-[60vh] lg:h-screen lg:relative lg:flex-1 pointer-events-auto z-0 flex justify-center items-center mt-10 lg:mt-0 xl:mr-10">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[450px]"
-        >
-          {/* Glowing background */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-accent-cyan to-accent-blue blur-xl opacity-40 animate-pulse"></div>
-          
-          {/* Image wrapper */}
-          <div className="relative w-full h-full rounded-full p-2 border border-accent-cyan/50 bg-black/40 backdrop-blur-sm flex items-center justify-center shadow-[0_0_50px_rgba(0,255,255,0.2)]">
-             <img 
-               src="/profile.jpeg"
-               alt="Manisha Profile" 
-               className="w-full h-full object-cover rounded-full"
-             />
+        {/* IMAGE */}
+        <motion.div className="flex-1 flex justify-center mt-10 md:mt-0" variants={item}>
+          <div className="w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] lg:w-[450px] lg:h-[450px]">
+            <PhotoCard />
           </div>
         </motion.div>
-      </div>
 
-      {/* Basic decorative ambient elements */}
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-accent-purple/20 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-pulse pointer-events-none"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-blue/10 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-pulse pointer-events-none" style={{ animationDelay: '2s' }}></div>
+      </motion.div>
+
+      {/* MOBILE */}
+      <motion.div
+        className="flex md:hidden flex-col items-center text-center px-6"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
+
+        <motion.h1 variants={item} className="text-4xl font-bold text-white">
+          Manisha <span className="text-accent-cyan">N</span>
+        </motion.h1>
+
+        <motion.p variants={item} className="text-sm text-gray-400 mt-3 max-w-xs">
+          Full Stack Developer specializing in crafting robust web applications.
+        </motion.p>
+
+        <motion.div variants={item} className="mt-6 w-[220px] h-[220px]">
+          <PhotoCard />
+        </motion.div>
+
+        {/* BUTTONS */}
+        <motion.div className="flex flex-col gap-4 mt-6 w-full max-w-xs">
+          <motion.a variants={item} href="#projects" className="px-6 py-3 rounded-full bg-accent-blue/10 text-accent-cyan border border-accent-cyan">
+            View Projects
+          </motion.a>
+
+          <motion.a variants={item} href="/resume.pdf" className="px-6 py-3 rounded-full bg-accent-purple/20 text-accent-purple border border-accent-purple flex items-center justify-center gap-2">
+            <FaDownload /> Resume
+          </motion.a>
+
+          <motion.a variants={item} href="#contact" className="px-6 py-3 rounded-full glass-panel text-white border border-white/10">
+            Contact Me
+          </motion.a>
+        </motion.div>
+
+        {/* ICONS */}
+        <motion.div className="flex gap-6 mt-6">
+          <motion.div variants={item}><FaGithub size={22} /></motion.div>
+          <motion.div variants={item}><FaLinkedin size={22} /></motion.div>
+          <motion.div variants={item}><FaEnvelope size={22} /></motion.div>
+        </motion.div>
+
+      </motion.div>
+
     </section>
   );
 };
