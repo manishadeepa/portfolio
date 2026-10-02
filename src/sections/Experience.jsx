@@ -6,6 +6,17 @@ import { Briefcase, GraduationCap } from 'lucide-react';
 
 const experiences = [
   {
+    title: "Project Trainee",
+    company_name: "TVS Motor Company (IQL)",
+    icon: <Briefcase />,
+    iconBg: "#1d1836",
+    date: "June 2026 - Dec 2026",
+    points: [
+      "Working on the HoQ (House of Quality) project to analyze and map customer requirements to corresponding engineering requirements.",
+      "Currently contributing to a GenAI Hybrid Evaluator designed to reduce manual effort by streamlining the review and evaluation of AI-generated outputs."
+    ],
+  },
+  {
     title: "Web Development Intern",
     company_name: "Esoft IT Solutions",
     icon: <Briefcase />,

@@ -36,15 +36,15 @@ const projects = [
     live_site_link: ''
   },
   {
-    name: 'Online Retail Platform',
-    description: 'A fully responsive e-commerce web application featuring a highly intuitive front-end architecture coupled with a robust Django backend. The platform enables dynamic product management, streamlined inventory tracking, seamless user authentication, and an optimized checkout UX designed to drive user conversion and smooth interactions.',
+    name: 'Fake News Detection Extension',
+    description: 'An end-to-end ML system fine-tuning a RoBERTa transformer on the LIAR dataset to classify news as fake, uncertain, or real. Deployed via a FastAPI backend paired with a Chrome browser extension that extracts live article text and displays real-time credibility verdicts with confidence scores.',
     tags: [
-      { name: 'django', color: 'text-green-500' },
-      { name: 'javascript', color: 'text-yellow-400' },
-      { name: 'html/css', color: 'text-orange-400' },
+      { name: 'huggingface', color: 'text-yellow-400' },
+      { name: 'fastapi', color: 'text-emerald-400' },
+      { name: 'javascript', color: 'text-cyan-400' },
     ],
-    image: 'https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80&w=800',
-    source_code_link: 'https://github.com/manishadeepa/',
+    image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800',
+    source_code_link: '',
     live_site_link: ''
   }
 ];

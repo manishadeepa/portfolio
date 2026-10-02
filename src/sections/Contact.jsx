@@ -1,11 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import EarthCanvas from "../components/canvas/EarthCanvas";
 
 const Contact = () => {
-  const handleSubmit = (e) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState({ type: "", message: "" });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("This contact form works! You can hook it up to EmailJS whenever you are ready.");
+    setLoading(true);
+    setStatus({ type: "", message: "" });
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/manishanarayanasami@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: `New Portfolio Message from ${formData.name}`,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && (result.success === "true" || result.success === true)) {
+        setStatus({
+          type: "success",
+          message: "Thank you! Your message has been sent successfully. I'll get back to you soon.",
+        });
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        setStatus({
+          type: "error",
+          message: "Something went wrong while sending your message. Please try again or email directly.",
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus({
+        type: "error",
+        message: "Failed to send message. Please check your internet connection.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -27,6 +82,8 @@ const Contact = () => {
             <input
               type="text"
               name="name"
+              value={formData.name}
+              onChange={handleChange}
               required
               placeholder="What's your name?"
               className="bg-black/40 py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border border-white/5 focus:border-accent-cyan transition-colors"
@@ -37,6 +94,8 @@ const Contact = () => {
             <input
               type="email"
               name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
               placeholder="What's your email?"
               className="bg-black/40 py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border border-white/5 focus:border-accent-cyan transition-colors"
@@ -47,17 +106,32 @@ const Contact = () => {
             <textarea
               rows={7}
               name="message"
+              value={formData.message}
+              onChange={handleChange}
               required
               placeholder="What do you want to say to me?"
               className="bg-black/40 py-4 px-6 placeholder:text-gray-500 text-white rounded-lg outline-none border border-white/5 focus:border-accent-cyan transition-colors resize-none"
             />
           </label>
 
+          {status.message && (
+            <div
+              className={`p-4 rounded-lg text-sm font-medium ${
+                status.type === "success"
+                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                  : "bg-red-500/20 text-red-300 border border-red-500/30"
+              }`}
+            >
+              {status.message}
+            </div>
+          )}
+
           <button
             type="submit"
-            className="py-3 px-8 mt-4 rounded-xl bg-accent-cyan/90 text-primary font-bold shadow-md shadow-accent-cyan/20 hover:shadow-accent-cyan/40 hover:bg-white transition-all w-fit"
+            disabled={loading}
+            className="py-3 px-8 mt-4 rounded-xl bg-accent-cyan/90 text-primary font-bold shadow-md shadow-accent-cyan/20 hover:shadow-accent-cyan/40 hover:bg-white transition-all w-fit disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Send Message
+            {loading ? "Sending..." : "Send Message"}
           </button>
         </form>
       </motion.div>

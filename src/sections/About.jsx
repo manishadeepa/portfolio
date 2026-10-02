@@ -36,7 +36,7 @@ const About = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-gray-400 text-lg sm:text-xl max-w-3xl leading-relaxed mb-16 mx-auto md:mx-0"
         >
-          I'm a Computer Science and Engineering student at Sri Venkateswara College of Engineering with a passion for web development and software engineering. I specialize in both MERN stack and Python backend development, possessing strong problem-solving and adaptability skills. I actively participate in hackathons and continuously build out applications to challenge myself and deliver robust solutions.
+          I'm a Computer Science and Engineering student at Sri Venkateswara College of Engineering with a strong interest in Full-Stack Development and Artificial Intelligence &amp; Machine Learning. I'm passionate about developing practical applications and exploring AI-driven approaches to solve real-world problems. Through projects, hackathons, and continuous learning, I strive to build scalable and meaningful technology solutions.
         </motion.p>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10">
@@ -84,6 +84,7 @@ const About = () => {
               <ul className="grid grid-cols-1 gap-4 text-gray-400 list-disc pl-5 max-w-4xl mx-auto md:mx-0">
                 <li>Secured <strong className="text-white font-medium">Runner-Up</strong> position at IDEATEX '26 Ideathon for developing Automated Hostel Management System.</li>
                 <li>Awarded <strong className="text-white font-medium">Bronze Medal</strong> in Ball Badminton at the Anna University Zonals Tournament.</li>
+                <li><strong className="text-white font-medium">Winner</strong>, CM TROPHY 2026 – Ball Badminton.</li>
               </ul>
             </div>
           </div>
